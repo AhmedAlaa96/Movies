@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ahmed.movies.data.models.ProgressTypes
 import com.ahmed.movies.data.models.Status
 import com.ahmed.movies.utils.alternate
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 abstract class BasePagingViewModel(
@@ -15,7 +16,7 @@ abstract class BasePagingViewModel(
     protected var shouldLoadMore: Boolean = true
     protected var isLoading: Boolean = false
     private var noNetworkToastCount = 0
-
+    var shouldClearObservable = MutableSharedFlow<Boolean>()
     public override fun onCleared() {
         isLoading = false
         showProgress(false, ProgressTypes.PAGING_PROGRESS)
