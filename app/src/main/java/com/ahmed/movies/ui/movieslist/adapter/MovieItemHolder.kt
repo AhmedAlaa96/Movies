@@ -5,10 +5,10 @@ import com.ahmed.movies.data.models.dto.Movie
 import com.ahmed.movies.databinding.ItemMovieBinding
 import com.ahmed.movies.ui.base.BaseViewHolder
 import com.ahmed.movies.ui.base.ListItemClickListener
-import com.ahmed.movies.utils.Constants.URL.getImageUrl
 import com.ahmed.movies.utils.DateTimeHelper
+import com.ahmed.movies.utils.Utils.roundTheNumber
+import com.ahmed.movies.utils.setNetworkImage
 import com.ahmed.movies.utils.alternate
-import com.bumptech.glide.Glide
 
 class MovieItemHolder(
     private val binding: ItemMovieBinding,
@@ -36,16 +36,10 @@ class MovieItemHolder(
 
     private fun bindVoteText(voteAverage: Double?) {
         binding.txtVote.text =
-            binding.txtVote.context.getString(R.string.vote, voteAverage.toString().alternate())
+            binding.txtVote.context.getString(R.string.rate, roundTheNumber(voteAverage))
     }
 
     private fun bindMovieIcon(posterPath: String?) {
-        Glide
-            .with(binding.root.context)
-            .load(getImageUrl(posterPath))
-            .fitCenter()
-            .placeholder(R.drawable.ic_downloading)
-            .error(R.drawable.ic_error)
-            .into(binding.imgMovie)
+        binding.imgMovie.setNetworkImage(posterPath)
     }
 }
