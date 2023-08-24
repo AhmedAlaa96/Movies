@@ -116,10 +116,11 @@
                 android:id="@+id/txtSummary"
                 style="@style/movieVoteStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_8"
-                android:gravity="start|center_vertical"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/size_8"
+                android:gravity="start"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
         </androidx.constraintlayout.widget.ConstraintLayout>

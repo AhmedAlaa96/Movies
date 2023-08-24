@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.ahmed.movies.data.models.LoadingModel
 import com.ahmed.movies.data.models.ProgressTypes
 import com.ahmed.movies.data.models.Status
+import com.ahmed.movies.data.models.view_state.BaseViewStateModel
 import com.ahmed.movies.utils.alternate
 import com.ahmed.movies.utils.view_state.ViewStateHelper
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -64,5 +65,27 @@ abstract class BaseViewModel(
         val errorTitle = status.error
         showToastMessage(errorTitle)
     }
+
+    fun restoreViewState(
+        owner: LifecycleOwner,
+        vararg views: View,
+        onNoSavedState: ((tag: String) -> Unit)? = null
+    ) {
+        for (view in views) {
+            val stateLiveData = getStateLiveData<Any>(view.tag as String)
+            if (stateLiveData != null)
+                stateLiveData.observe(owner,
+                    androidx.lifecycle.Observer {
+                        restoreViewState(view, it as BaseViewStateModel)
+                    })
+            else
+                onNoSavedState?.invoke(view.tag as String)
+        }
+    }
+
+    private fun restoreViewState(view: View, value: BaseViewStateModel) {
+        ViewStateHelper.restoreView(view, value)
+    }
+
 
 }
