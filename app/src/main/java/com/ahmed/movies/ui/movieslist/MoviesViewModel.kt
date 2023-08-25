@@ -55,28 +55,31 @@ class MoviesViewModel @Inject constructor(
     }
 
     internal fun onScroll() {
-        val handler = CoroutineExceptionHandler { _, exception ->
-            viewModelScope.launch {
-                setMoviesResponseStatus(Status.Error(error = exception.message))
+        if (!isLoading) {
+            val handler = CoroutineExceptionHandler { _, exception ->
+                viewModelScope.launch {
+                    setMoviesResponseStatus(Status.Error(error = exception.message))
+                }
+            }
+
+            viewModelScope.launch(mainDispatcher + handler) {
+                callGetMoviesList(ProgressTypes.PAGING_PROGRESS, false)
             }
         }
-
-        viewModelScope.launch(mainDispatcher + handler) {
-            callGetMoviesList(ProgressTypes.PAGING_PROGRESS, false)
-        }
-
     }
 
     internal fun onRefresh() {
-        mPageModel.reset()
-        val handler = CoroutineExceptionHandler { _, exception ->
-            viewModelScope.launch {
-                setMoviesResponseStatus(Status.Error(error = exception.message))
+        if (!isLoading) {
+            mPageModel.reset()
+            val handler = CoroutineExceptionHandler { _, exception ->
+                viewModelScope.launch {
+                    setMoviesResponseStatus(Status.Error(error = exception.message))
+                }
             }
-        }
 
-        viewModelScope.launch(mainDispatcher + handler) {
-            callGetMoviesList(ProgressTypes.PULL_TO_REFRESH_PROGRESS, true)
+            viewModelScope.launch(mainDispatcher + handler) {
+                callGetMoviesList(ProgressTypes.PULL_TO_REFRESH_PROGRESS, true)
+            }
         }
 
     }
@@ -97,24 +100,29 @@ class MoviesViewModel @Inject constructor(
 
     private suspend fun callGetMoviesList(progressType: ProgressTypes, shouldClear: Boolean) {
         onGetMoviesSubscribe(progressType)
+        isLoading = true
         mIMoviesListUseCase.getMoviesList(pageModel = mPageModel)
             .onStart {
                 showProgress(true, progressType)
             }.onCompletion {
                 showProgress(false, progressType)
+                isLoading = false
             }.catch {
                 setMoviesResponseStatus(Status.Error(error = it.message))
                 showProgress(false, progressType)
+                isLoading = false
             }
             .collect {
-                mapMovieListResponse(it, shouldClear)
+                mapMovieListResponse(it, progressType, shouldClear)
             }
     }
 
     private suspend fun mapMovieListResponse(
         moviesResponse: Status<MoviesListResponse>,
+        progressType: ProgressTypes,
         shouldClear: Boolean
     ) {
+        isLoading = false
         when (moviesResponse.statusCode) {
             StatusCode.SUCCESS -> {
                 clearData(shouldClear)
@@ -132,12 +140,16 @@ class MoviesViewModel @Inject constructor(
                 setMoviesResponseStatus(Status.Success(currentList))
             }
             else -> {
-                setMoviesResponseStatus(
-                    Status.CopyStatus(
-                        moviesResponse,
-                        moviesResponse.data?.movies
+                if (!moviesResponseStatus?.data.isNullOrEmpty()) {
+                    handleStatusErrorWithExistingData(progressType, moviesResponse)
+                } else {
+                    setMoviesResponseStatus(
+                        Status.CopyStatus(
+                            moviesResponse,
+                            moviesResponse.data?.movies
+                        )
                     )
-                )
+                }
             }
         }
     }
