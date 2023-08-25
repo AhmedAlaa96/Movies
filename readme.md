@@ -66,10 +66,10 @@ The project includes unit tests to ensure the correctness of the implemented fea
 - v1.0.0 (2023-08-24): Initial release 
   - Implemented the main functionality of displaying the list of trending movies and showing movie details. 
 - v1.0.1 (2023-08-25): NDK Security & Fixing bugs
-  - Add NDK Security for authorization token. 
+  - Add NDK Security for the authorization token. 
   - Fixed minor bugs and improved overall stability.
 
-### You can fined latest build [here ↗](https://install.appcenter.ms/users/ahmedalaa/apps/movies/distribution_groups/public)
+### You can find the latest build [here ↗](https://install.appcenter.ms/users/ahmedalaa/apps/movies/distribution_groups/public)
 
 ## Contributing
 
