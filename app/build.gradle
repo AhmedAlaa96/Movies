@@ -9,6 +9,19 @@ plugins {
 }
 
 android {
+    signingConfigs{
+        def keyStorePath = "../keystore/movieskeystore.jks"
+
+        signingConfigs {
+            release {
+                storeFile file(keyStorePath)
+                storePassword 'movies123456'
+                keyAlias = 'movies'
+                keyPassword 'movies123456'
+                v2SigningEnabled true
+            }
+        }
+    }
     namespace 'com.ahmed.movies'
     compileSdk 33
 
