@@ -22,15 +22,11 @@ import javax.inject.Named
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val mIMoviesListUseCase: IMoviesListUseCase,
+    @Named("ViewModel") private val mainDispatcher: CoroutineDispatcher,
     handle: SavedStateHandle
 ) : BasePagingViewModel(handle, mIMoviesListUseCase) {
 
-    @Inject
-    @Named("ViewModel")
-    lateinit var mainDispatcher: CoroutineDispatcher
-
     private var moviesResponseStatus: Status<ArrayList<Movie>>? = null
-    private var moviesList: ArrayList<Movie>? = null
 
 
     private val mPageModel = PageModel()
@@ -126,11 +122,11 @@ class MoviesViewModel @Inject constructor(
         when (moviesResponse.statusCode) {
             StatusCode.SUCCESS -> {
                 clearData(shouldClear)
-                val feedbackList = moviesResponse.data?.movies!!
+                val moviesList = moviesResponse.data?.movies!!
                 val totalCount = moviesResponse.data.totalPages
 
                 val currentList = moviesResponseStatus?.data ?: ArrayList()
-                currentList.addAll(feedbackList)
+                currentList.addAll(moviesList)
 
                 mPageModel.incrementPageNumber()
 
