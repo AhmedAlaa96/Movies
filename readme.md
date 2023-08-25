@@ -72,4 +72,4 @@ If you have any questions or inquiries, please contact:
 
 Ahmed Alaa\
 Email: ahmedalaahussein00@gmail.com\
-LinkedIn: [Your LinkedIn Profile ↗](https://www.linkedin.com/in/ahmed-alaa-hussein/)
+LinkedIn: [Ahmed Alaa](https://www.linkedin.com/in/ahmed-alaa-hussein/)
