@@ -58,6 +58,12 @@ The project includes unit tests to ensure the correctness of the implemented fea
 
 3. Right-click on the test class and select "Run <TestClass>" to execute the tests.
 
+## Release History
+- v1.0.0 (2023-08-25): Initial release 
+  - Implemented the main functionality of displaying the list of trending movies and showing movie details. 
+- v1.0.1 (2023-08-05): Fixing bugs
+  - Fixed minor bugs and improved overall stability.
+
 ## Contributing
 
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please submit an issue or create a pull request.
