@@ -8,6 +8,8 @@ import com.ahmed.movies.data.remote.IRemoteDataSource
 import com.ahmed.movies.data.shared_prefrences.IPreferencesDataSource
 import com.ahmed.movies.ui.base.BaseRepository
 import com.ahmed.movies.utils.connection_utils.IConnectionUtils
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -15,8 +17,9 @@ class GetMoviesListRepository @Inject constructor(
     private val connectionUtils: IConnectionUtils,
     private val mIRemoteDataSource: IRemoteDataSource,
     mILocalDataSource: ILocalDataSource,
-    private val mIPreferencesDataSource: IPreferencesDataSource
-): BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource),
+    private val mIPreferencesDataSource: IPreferencesDataSource,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+): BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource, dispatcher),
     IGetMoviesListRepository {
     override fun getMoviesList(pageModel: PageModel): Flow<Status<MoviesListResponse>> {
         return safeApiCalls {
