@@ -17,6 +17,10 @@ The Movie Catalog App is an Android application that allows users to browse a li
 2. Open the project in Android Studio.
 3. Build and run the app on an emulator or a physical device.
 
+## Prerequisites
+
+- Android Studio (version Electric Eel (2022.1.1) or higher)
+
 ## Technologies Used
 
 - Kotlin
