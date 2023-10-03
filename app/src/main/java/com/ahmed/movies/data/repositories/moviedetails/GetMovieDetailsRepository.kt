@@ -5,6 +5,7 @@ import com.ahmed.movies.data.models.Status
 import com.ahmed.movies.data.models.dto.MovieDetailsResponse
 import com.ahmed.movies.data.remote.IRemoteDataSource
 import com.ahmed.movies.data.shared_prefrences.IPreferencesDataSource
+import com.ahmed.movies.di.IODispatcher
 import com.ahmed.movies.ui.base.BaseRepository
 import com.ahmed.movies.ui.base.IBaseRepository
 import com.ahmed.movies.utils.connection_utils.IConnectionUtils
@@ -18,7 +19,7 @@ class GetMovieDetailsRepository @Inject constructor(
     private val mIRemoteDataSource: IRemoteDataSource,
     mILocalDataSource: ILocalDataSource,
     private val mIPreferencesDataSource: IPreferencesDataSource,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IODispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource, dispatcher),
     IGetMovieDetailsRepository {
     override fun getMovieDetails(movieId: Int?): Flow<Status<MovieDetailsResponse>> {

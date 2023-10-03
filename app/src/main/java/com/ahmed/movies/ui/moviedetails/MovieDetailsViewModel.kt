@@ -6,6 +6,7 @@ import com.ahmed.movies.data.models.ProgressTypes
 import com.ahmed.movies.data.models.Status
 import com.ahmed.movies.data.models.PageModel
 import com.ahmed.movies.data.models.dto.MovieDetailsResponse
+import com.ahmed.movies.di.MainDispatcher
 import com.ahmed.movies.domain.usecases.moviedetails.IMovieDetailsUseCase
 import com.ahmed.movies.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,14 +22,10 @@ import javax.inject.Named
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val mIMovieDetailsUseCase: IMovieDetailsUseCase,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     handle: SavedStateHandle
 ) :
     BaseViewModel(handle, mIMovieDetailsUseCase) {
-
-    @Inject
-    @Named("ViewModel")
-    lateinit var mainDispatcher: CoroutineDispatcher
-
 
     private var moviesResponseStatus: Status<MovieDetailsResponse>? = null
 

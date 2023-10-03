@@ -20,6 +20,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -59,18 +60,26 @@ internal class AppModule {
         return PreferencesDataSource(context, gson)
     }
 
+    @IODispatcher
     @Provides
-    @Singleton
-    @Named("Repository")
     fun provideDispatcher(
     ): CoroutineDispatcher {
         return Dispatchers.IO
     }
+    @MainDispatcher
     @Provides
-    @Singleton
-    @Named("ViewModel")
     fun provideMainDispatcher(
     ): CoroutineDispatcher {
         return Dispatchers.Main
     }
 }
+
+
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class IODispatcher
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class MainDispatcher

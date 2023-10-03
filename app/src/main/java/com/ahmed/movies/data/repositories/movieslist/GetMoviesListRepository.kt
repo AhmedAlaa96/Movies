@@ -6,6 +6,7 @@ import com.ahmed.movies.data.models.dto.MoviesListResponse
 import com.ahmed.movies.data.models.PageModel
 import com.ahmed.movies.data.remote.IRemoteDataSource
 import com.ahmed.movies.data.shared_prefrences.IPreferencesDataSource
+import com.ahmed.movies.di.IODispatcher
 import com.ahmed.movies.ui.base.BaseRepository
 import com.ahmed.movies.utils.connection_utils.IConnectionUtils
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,7 +19,7 @@ class GetMoviesListRepository @Inject constructor(
     private val mIRemoteDataSource: IRemoteDataSource,
     mILocalDataSource: ILocalDataSource,
     private val mIPreferencesDataSource: IPreferencesDataSource,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IODispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): BaseRepository(connectionUtils, mIRemoteDataSource, mIPreferencesDataSource, dispatcher),
     IGetMoviesListRepository {
     override fun getMoviesList(pageModel: PageModel): Flow<Status<MoviesListResponse>> {

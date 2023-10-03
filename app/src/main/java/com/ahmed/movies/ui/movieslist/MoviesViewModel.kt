@@ -8,6 +8,8 @@ import com.ahmed.movies.data.models.Status
 import com.ahmed.movies.data.models.StatusCode
 import com.ahmed.movies.data.models.dto.Movie
 import com.ahmed.movies.data.models.dto.MoviesListResponse
+import com.ahmed.movies.di.AppModule
+import com.ahmed.movies.di.MainDispatcher
 import com.ahmed.movies.domain.usecases.movieslist.IMoviesListUseCase
 import com.ahmed.movies.ui.base.BasePagingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,7 @@ import javax.inject.Named
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val mIMoviesListUseCase: IMoviesListUseCase,
-    @Named("ViewModel") private val mainDispatcher: CoroutineDispatcher,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     handle: SavedStateHandle
 ) : BasePagingViewModel(handle, mIMoviesListUseCase) {
 
